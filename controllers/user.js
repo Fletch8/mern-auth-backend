@@ -63,7 +63,7 @@ const login = async(req, res) => {
 
     if (foundUser){
         // user is in the DB
-        let isMatch = await bcrypt.compare(password, foundUser.password)
+        let isMatch = await bcrypt.compare(req.body.password, foundUser.password)
         if (isMatch){
             // console.log(isMatch);
             // If user match, send json web token
@@ -94,9 +94,20 @@ const login = async(req, res) => {
     }
 }
 
+// Private 
+const profile = (req, res) => {
+    console.log('=======> inside /profile')
+    console.log(req.body)
+    console.log('=======> user')
+    console.log(req.user)
+    const { id, name, email } = req.user;
+    res.json({ id, name, email })
+}
+
 //Exports
 module.exports = {
     test,
     register,
     login,
+    profile,
 }
